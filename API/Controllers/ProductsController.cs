@@ -1,4 +1,6 @@
-﻿namespace API.Controllers;
+﻿using Core.Specifications;
+
+namespace API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class ProductsController(IGenericRepository<Product> repo) : ControllerBase
@@ -6,7 +8,11 @@ public class ProductsController(IGenericRepository<Product> repo) : ControllerBa
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Product>>> GetProducts(string? brand, string? type, string? sort)
     {
-        return Ok(await repo.ListAllAsync());
+        var spec = new ProductSpecification(brand, type);
+
+        var products = await repo.ListAsync(spec);
+
+        return Ok(products);
     }
 
     [HttpGet("id:int")]

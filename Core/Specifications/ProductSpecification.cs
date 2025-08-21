@@ -15,6 +15,7 @@ public class ProductSpecification : BaseSpecification<Product>
                 break;
             default:
                 AddOrderBy(x => x.Name);
+
                 break;
         }
     }
